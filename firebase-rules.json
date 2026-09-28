@@ -1,0 +1,40 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "shops": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "customers": {
+          ".indexOn": [
+            "mobile"
+          ]
+        }
+      }
+    },
+    "customerAccess": {
+      "$accessKey": {
+        ".read": true,
+        ".write": "auth != null",
+        "shops": {
+          "$uid": {
+            "messages": {
+              "$messageId": {
+                ".write": "true"
+              }
+            }
+          }
+        }
+      }
+    },
+    "customerIndex": {
+      "$mobileHash": {
+        ".read": true,
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+}
